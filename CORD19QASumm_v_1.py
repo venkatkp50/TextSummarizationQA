@@ -55,7 +55,7 @@ GPT2_MAX_TOKEN = 1024
 import warnings
 warnings.filterwarnings('ignore')
 
-#bert_model = Summarizer() 
+#
 #GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
 
 # Stopword = stopwords.words('english') 
@@ -270,5 +270,12 @@ if user_message != '':
         tot_words_ref = len(word_tokenize(gold_text))
         max_abstract_token_size  = math.ceil(tot_words_ref / 100) * 100
         max_sent_size = math.ceil(len(sent_tokenize(gold_text))/10)*10
-              
-
+         
+        print('getTextSummarization for bert_model start .................')    
+        bert_model = Summarizer()     
+        print('getTextSummarization for bert_model End .................')    
+        full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
+        bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
+        print('BERT :',len(bert_summary))      
+        #col2.write('Abstract : This article describes,' + bert_summary)  
+        col2.write(bert_summary)  
