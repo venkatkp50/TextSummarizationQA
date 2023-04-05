@@ -186,12 +186,14 @@ if user_message != '':
             else:
                 return_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['abstract'].values[0]
         elif summarizationFor == 'BERT':
+            print('BERT inside .................1')
             header =[]
             berttext = []
             para = []
             #bert_model = Summarizer() 
             print('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
             if max_abstract_token_size > BERT_MAX_TOKEN:
+                print('BERT inside .................2.1')
                 for line in std_text:
                     if len(line) > 1:
                         if len(line) < 100:
@@ -203,6 +205,7 @@ if user_message != '':
                     berttext = Summarizer(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
                     return_text = ''.join( lines for lines in berttext) 
             else:
+                print('BERT inside .................2.2')
                 for line in std_text:
                     para.append(line) 
                 berttext = ''.join( lines for lines in para) 
