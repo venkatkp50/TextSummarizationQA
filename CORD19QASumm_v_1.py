@@ -174,19 +174,67 @@ if user_message != '':
     st.plotly_chart(fig, theme="streamlit", use_container_width=True,)
     filecount = 0
 
-    # selected_radio = st.radio('Choose File for Summarization',options=(ans[0],ans[1],ans[2],ans[3],ans[4]))
-    # file4Summ = ''
-    # filecount = 0
-    # #file4Summ = id[0]
-    # if selected_radio == ans[0]:
-    #     filecount = 0
-    # elif selected_radio == ans[1]:
-    #     filecount = 1
-    # elif selected_radio == ans[2]:
-    #     filecount = 2
-    # elif selected_radio == ans[3]:
-    #     filecount = 3
-    # else:
-    #     filecount = 4
+    def getTextSummarization(filecount,summarizationFor,std_text,max_abstract_token_size,max_sent_size):
+        if summarizationFor == 'std':
+            #st.write('Calling from inside',data[data['paper_id'] == id[filecount].replace('.txt','')]['abstract'].values[0],np.nan)
+            if data[data['paper_id'] == id[filecount].replace('.txt','')]['abstract'].values[0] is np.nan:
+                #st.write('setting text to blank')
+                return_text = ''
+            else:
+                return_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['abstract'].values[0]
+        elif summarizationFor == 'BERT':
+            header =[]
+            berttext = []
+            para = []
+            bert_model = Summarizer() 
+            print('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
+            if max_abstract_token_size > BERT_MAX_TOKEN:
+                for line in std_text:
+                    if len(line) > 1:
+                        if len(line) < 100:
+                            header.append(line)
+                        else:
+                            para.append(line)
+                for parabody in para:
+                    berttext.append(bert_model(body=parabody,max_length=100))
+                    berttext = bert_model(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+                    return_text = ''.join( lines for lines in berttext) 
+            else:
+                for line in std_text:
+                    para.append(line) 
+                berttext = ''.join( lines for lines in para) 
+                berttext = bert_model(body=berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+                return_text = ''.join( lines for lines in berttext)               
+        elif summarizationFor == 'GPT2':            
+
+            header =[]
+            para = []
+            gpt2text = []
+            
+            print('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
+            if max_abstract_token_size > GPT2_MAX_TOKEN:
+                for line in std_text:
+                    if len(line) > 1:
+                        if len(line) < 100:
+                            header.append(line)
+                        else:
+                            para.append(line)                  
+                for parabody in para:
+                    gpt2text.append(GPT2_model(body=parabody, max_length=100))
+                
+                gpt2text_full = ''.join(text for text in gpt2text)
+                return_text = GPT2_model(body=gpt2text_full, max_length=max_abstract_token_size,num_sentences=max_sent_size)
+            else:
+                for line in std_text:
+                    para.append(line) 
+
+                gpt2text = ''.join( lines for lines in para) 
+                gpt2text = GPT2_model(body=gpt2text,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+                return_text = ''.join( lines for lines in gpt2text) 
+        return return_text
+
+
+    tab1, tab2 = st.tabs(["Single Document Summarization", "Multi Document Summarization"])
+
 
 
