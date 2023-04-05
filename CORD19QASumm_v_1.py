@@ -105,4 +105,81 @@ retriever = BM25Retriever(document_store=document_store)
 reader = FARMReader(model_name_or_path=modelSelected, use_gpu=True)
 pipe = ExtractiveQAPipeline(reader, retriever)
 
+if user_message != '':
+    print('inside user_meassage block')
+    results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
+    ans = []
+    doc = []
+    score = []
+    context = []
+    id =[]
+    for result in results['answers']:
+        ans.append(result.answer)
+        score.append(result.score)
+        context.append(result.context)
+        id.append(result.meta['name'])
+ 
+    print('.....10')
+    responsedf = pd.DataFrame({'Probable Anwsers':ans,'Score':score,'Context':context,'Source File Name':id})
+    ans = responsedf['Probable Anwsers'].values.tolist()
+    ids = responsedf['Source File Name'].values.tolist()
+    scorelist = responsedf['Score'].values.tolist()
+    scorelist = [ x*100 for x in scorelist]
+
+    responsedf = responsedf.astype(str).apply(lambda x: x.str[:30])
+    ansfig = responsedf['Probable Anwsers'].values.tolist()
+    
+    max_score = float(responsedf['Score'].max())
+    if max_score >  0.9:
+        scoremultiplier = 90        
+    elif max_score > 0.7:
+            scoremultiplier = 150
+    elif max_score > 0.4:
+            scoremultiplier = 175
+    else:
+            scoremultiplier = 200
+
+    score100 = [scr*scoremultiplier for scr in score]
+    
+    #colorcode = ['rgb(116, 191, 0)', 'rgb(60, 194, 0)', 'rgb(2, 198, 0)', 'rgb(0, 210, 186)', 'rgb(0, 174, 213)']
+    colorcode = ['rgb(102, 0, 51)', 'rgb(204, 0, 102)', 'rgb(255, 51, 153)', 'rgb(102, 255, 255)', 'rgb(204, 204, 255)']
+    opacitycode = [0.8, 0.6, 0.5, 0.4,0.3]
+    fig = go.Figure(data=[go.Scatter(x=ansfig, y=scorelist,marker=dict(color=colorcode,opacity=opacitycode,size=score100,))])
+    st.subheader('Responses..')
+    st.markdown('----')
+    col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1])
+
+    
+    col1.write(ans[0])
+    col2.write(ans[1])
+    col3.write(ans[2])
+    col4.write(ans[3])
+    col5.write(ans[4])
+    st.markdown('----')
+    col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1])
+    col1.write(str(round(score[0],2)*100)+'%')
+    col2.write(str(round(score[1],2)*100)+'%')
+    col3.write(str(round(score[2],2)*100)+'%')
+    col4.write(str(round(score[3],2)*100)+'%')
+    col5.write(str(round(score[4],2)*100)+'%')
+    st.markdown('----')
+    st.subheader('Score %')
+    st.plotly_chart(fig, theme="streamlit", use_container_width=True,)
+    filecount = 0
+
+    # selected_radio = st.radio('Choose File for Summarization',options=(ans[0],ans[1],ans[2],ans[3],ans[4]))
+    # file4Summ = ''
+    # filecount = 0
+    # #file4Summ = id[0]
+    # if selected_radio == ans[0]:
+    #     filecount = 0
+    # elif selected_radio == ans[1]:
+    #     filecount = 1
+    # elif selected_radio == ans[2]:
+    #     filecount = 2
+    # elif selected_radio == ans[3]:
+    #     filecount = 3
+    # else:
+    #     filecount = 4
+
 
