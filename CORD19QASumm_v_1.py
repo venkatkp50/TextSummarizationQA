@@ -45,7 +45,10 @@ import nltk
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.translate import meteor
-
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+nltk.download('stopwords')
 new_stopwords = ["What"]
 BERT_MAX_TOKEN = 512
 GPT2_MAX_TOKEN = 1024
