@@ -236,5 +236,31 @@ if user_message != '':
 
     tab1, tab2 = st.tabs(["Single Document Summarization", "Multi Document Summarization"])
 
+    mystyle = '''
+    <style>
+        p {
+            text-align: justify;
+        }
+    </style>
+    '''
+    with tab1:
+        col1 , col2 , col3 = st.columns([1,1,1])
+        col1.error('Reference Standard')
+        col2.error('BERT Summarization')
+        col3.error('GPT-2 Summarization')
 
+        gold_text = getTextSummarization(filecount,'std','',0,0) 
+        while (gold_text == '' and filecount < 5):
+            filecount = filecount+1
+            gold_text = getTextSummarization(filecount,'std','',0,0)
+        # print('STD filecount=',filecount)
+        # print(len(word_tokenize(gold_text)))
+        col1.write(gold_text, align_text='justify')  
+        
+
+        #gold_token = len(word_tokenize(gold_text))
+        tot_words_ref = len(word_tokenize(gold_text))
+        max_abstract_token_size  = math.ceil(tot_words_ref / 100) * 100
+        max_sent_size = math.ceil(len(sent_tokenize(gold_text))/10)*10
+              
 
