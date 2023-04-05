@@ -52,8 +52,8 @@ GPT2_MAX_TOKEN = 1024
 import warnings
 warnings.filterwarnings('ignore')
 
-bert_model = Summarizer() 
-GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
+#bert_model = Summarizer() 
+#GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
 
 # Stopword = stopwords.words('english') 
 # Stopword.extend(new_stopwords)
