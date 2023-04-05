@@ -91,6 +91,8 @@ col_names = [
 #data = pd.DataFrame(cleaned_files, columns=col_names)
 data = pd.read_csv('json2csv.csv')
 
+print('created json2csv ')
+
 text_file_path = 'text_file'
 abstract_file_path = 'abstract_file'
 bert_file_summary_path = 'summary_file/BERT'
@@ -104,6 +106,11 @@ document_store.write_documents(docs)
 retriever = BM25Retriever(document_store=document_store)
 reader = FARMReader(model_name_or_path=modelSelected, use_gpu=True)
 pipe = ExtractiveQAPipeline(reader, retriever)
+
+
+
+print('completed reader ')
+
 
 if user_message != '':
     print('inside user_meassage block')
