@@ -244,12 +244,17 @@ if user_message != '':
     </style>
     '''
     with tab1:
+        print('inside tab1 .................')
         col1 , col2 , col3 = st.columns([1,1,1])
         col1.error('Reference Standard')
         col2.error('BERT Summarization')
         col3.error('GPT-2 Summarization')
+        
+        print('created summ header .................')
 
         gold_text = getTextSummarization(filecount,'std','',0,0) 
+        
+        print('getTextSummarization for std .................')
         while (gold_text == '' and filecount < 5):
             filecount = filecount+1
             gold_text = getTextSummarization(filecount,'std','',0,0)
