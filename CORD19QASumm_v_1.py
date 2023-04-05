@@ -189,7 +189,7 @@ if user_message != '':
             header =[]
             berttext = []
             para = []
-            bert_model = Summarizer() 
+            #bert_model = Summarizer() 
             print('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
             if max_abstract_token_size > BERT_MAX_TOKEN:
                 for line in std_text:
@@ -200,7 +200,7 @@ if user_message != '':
                             para.append(line)
                 for parabody in para:
                     berttext.append(bert_model(body=parabody,max_length=100))
-                    berttext = bert_model(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+                    berttext = Summarizer(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
                     return_text = ''.join( lines for lines in berttext) 
             else:
                 for line in std_text:
@@ -272,10 +272,11 @@ if user_message != '':
         max_sent_size = math.ceil(len(sent_tokenize(gold_text))/10)*10
          
         print('getTextSummarization for bert_model start .................')    
-        bert_model = Summarizer()     
-        print('getTextSummarization for bert_model End .................')    
+           
+          
         full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
+        print('full_text .................')  
         bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
-        print('BERT :',len(bert_summary))      
+        print('BERT :.....................',len(bert_summary))      
         #col2.write('Abstract : This article describes,' + bert_summary)  
         col2.write(bert_summary)  
