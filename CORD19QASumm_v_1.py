@@ -284,7 +284,7 @@ if user_message != '':
         berttext = []
         para = []
         if max_abstract_token_size > BERT_MAX_TOKEN:    
-            st.write('if .........max_abstract_token_size',max_abstract_token_size' BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
+            st.write('if .........max_abstract_token_size=',max_abstract_token_size,' BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
             for line in full_text:
                     if len(line) > 1:
                         if len(line) < 100:
