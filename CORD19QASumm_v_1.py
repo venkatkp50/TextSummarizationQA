@@ -295,7 +295,7 @@ if user_message != '':
                 berttext.append(bert_model(body=parabody,max_length=100))
                 st.write('tot_words_ref=',tot_words_ref)
                 st.write('max_sent_size=',max_sent_size)
-                berttext = Summarizer(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+                berttext = Summarizer(parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
                 #return_text = ''.join( lines for lines in berttext)
                 bert_summary = ''.join( lines for lines in berttext)
         else:
@@ -304,7 +304,7 @@ if user_message != '':
                 para.append(line) 
             berttext = ''.join( lines for lines in para) 
             st.write('else ......... in para max_sent_size=',max_sent_size)
-            berttext = Summarizer(body=berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+            berttext = Summarizer(berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
             #return_text = ''.join( lines for lines in berttext)  
             bert_summary = ''.join( lines for lines in berttext)  
             
