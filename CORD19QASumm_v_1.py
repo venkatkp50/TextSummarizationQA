@@ -242,13 +242,13 @@ if user_message != '':
 
     tab1, tab2 = st.tabs(["Single Document Summarization", "Multi Document Summarization"])
 
-    mystyle = '''
-    <style>
-        p {
-            text-align: justify;
-        }
-    </style>
-    '''
+#     mystyle = '''
+#     <style>
+#         p {
+#             text-align: justify;
+#         }
+#     </style>
+#     '''
     with tab1:
         print('inside tab1 .................')
         col1 , col2 , col3 = st.columns([1,1,1])
