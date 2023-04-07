@@ -292,6 +292,8 @@ if user_message != '':
                             para.append(line)
             for parabody in para:
                 berttext.append(bert_model(body=parabody,max_length=100))
+                st.write('tot_words_ref=',tot_words_ref)
+                st.write('max_sent_size=',max_sent_size)
                 berttext = Summarizer(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
                 #return_text = ''.join( lines for lines in berttext)
                 bert_summary = ''.join( lines for lines in berttext)
@@ -300,7 +302,8 @@ if user_message != '':
                 para.append(line) 
             berttext = ''.join( lines for lines in para) 
             berttext = bert_model(body=berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-            return_text = ''.join( lines for lines in berttext)  
+            #return_text = ''.join( lines for lines in berttext)  
+            bert_summary = ''.join( lines for lines in berttext)  
             
         st.write('BERT summary len :.....................',len(bert_summary))      
         ##col2.write('Abstract : This article describes,' + bert_summary)  
