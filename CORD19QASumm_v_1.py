@@ -307,7 +307,7 @@ if user_message != '':
             berttext = ''.join( lines for lines in para) 
             st.write('else ......... in para max_sent_size=',max_sent_size,'...para len',len(para))
             print('else ......... in para max_sent_size=',max_sent_size,'...para len',len(para))
-            bert_model = Summarizer()
+            bert_model = Summarizer('distilbert-base-uncased', hidden=[-1,-2], hidden_concat=True)
             st.write('bert_model instantised  ..............')
             print('bert_model instantised  ..............')
             berttext = bert_model(berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
