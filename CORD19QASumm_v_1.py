@@ -301,8 +301,9 @@ if user_message != '':
             st.write('else .........')
             for line in full_text:
                 para.append(line) 
+            st.write('else  .........  ...para len',len(para))
             berttext = ''.join( lines for lines in para) 
-            st.write('else ......... in para max_sent_size=',max_sent_size)
+            st.write('else ......... in para max_sent_size=',max_sent_size,'...para len',len(para))
             bert_model = Summarizer()
             st.write('bert_model instantised  ..............')
             berttext = bert_model(berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
