@@ -274,11 +274,11 @@ if user_message != '':
         max_abstract_token_size  = math.ceil(tot_words_ref / 100) * 100
         max_sent_size = math.ceil(len(sent_tokenize(gold_text))/10)*10
          
-        print('getTextSummarization for bert_model start .................')    
+        st.write('getTextSummarization for bert_model start .................')    
            
           
         full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
-        print('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size)
+        st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size)
         #bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
         #print('BERT :.....................',len(bert_summary))      
         ##col2.write('Abstract : This article describes,' + bert_summary)  
