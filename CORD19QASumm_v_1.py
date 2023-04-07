@@ -279,16 +279,13 @@ if user_message != '':
         berttext = []
         para = []
         if max_abstract_token_size > BERT_MAX_TOKEN:    
-            st.write('if .........max_abstract_token_size > BERT_MAX_TOKEN ')
             for line in full_text:
                     if len(line) > 1:
                         if len(line) < 100:
                             header.append(line)
                         else:
                             para.append(line)            
-            st.write('complted para creation .......para len =',len(para))
-            for parabody in para:
-                
+            for parabody in para:                
                 berttext.append(bert_model(body=parabody,max_length=100))
                 st.write('tot_words_ref=',tot_words_ref)
                 st.write('max_sent_size=',max_sent_size)
@@ -301,29 +298,44 @@ if user_message != '':
 #             print('else .........')
             for line in full_text:
                 para.append(line) 
-#             st.write('else  .........  ...para len',len(para))
-#             print('else  .........  ...para len',len(para))
             berttext = ''.join( lines for lines in para) 
-#             st.write('else ......... in para max_sent_size=',max_sent_size,'...para len',len(para))
-#             print('else ......... in para max_sent_size=',max_sent_size,'...para len',len(para))
             bert_model = Summarizer('distilbert-base-uncased', hidden=[-1,-2], hidden_concat=True)
-#             st.write('bert_model instantised  ..............')
-#             print('bert_model instantised  ..............')
             berttext = bert_model(berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
             #return_text = ''.join( lines for lines in berttext)  
             bert_summary = ''.join( lines for lines in berttext)  
-            
-#         st.write('BERT summary len :.....................',len(bert_summary))      
-        print('BERT summary len :.....................',len(bert_summary))      
-        ##col2.write('Abstract : This article describes,' + bert_summary)  
         col2.write(bert_summary)  
         
         st.write('................GPT filecount=',filecount)
-        GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
-        st.write('................GPT model created')
-        gpt2text_summary = getTextSummarization(filecount,'GPT2',full_text,tot_words_ref,max_sent_size)
+        header =[]
+        para = []
+        gpt2text = []
+        st.write('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
+        if max_abstract_token_size > GPT2_MAX_TOKEN:  
+            st.write('inside if ...............')
+            for line in full_text:
+                if len(line) > 1:
+                    if len(line) < 100:
+                        header.append(line)
+                    else:
+                        para.append(line)                  
+            for parabody in para:
+                GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
+                st.write('................GPT model created')
+                gpt2text.append(GPT2_model(body=parabody, max_length=100))                           
+                gpt2text_full = ''.join(text for text in gpt2text)
+                gpt2_summary = GPT2_model(body=gpt2text_full, max_length=max_abstract_token_size,num_sentences=max_sent_size)
+        else:
+            st.write('inside else ...............')
+            for line in std_text:
+                para.append(line)
+            st.write('else para len ...............',len(para))
+            gpt2text = ''.join( lines for lines in para) 
+            gpt2text = GPT2_model(body=gpt2text,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+            gpt2_summary = ''.join( lines for lines in gpt2text)
         st.write('................GPT summary')
         #col3.write('Abstract : This article describes,' + gpt2text_summary )  
         col3.write( gpt2text_summary )  
+        
+        
         st.markdown('----')
         st.subheader('Summarization Statistics')
