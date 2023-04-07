@@ -273,10 +273,6 @@ if user_message != '':
         tot_words_ref = len(word_tokenize(gold_text))
         max_abstract_token_size  = math.ceil(tot_words_ref / 100) * 100
         max_sent_size = math.ceil(len(sent_tokenize(gold_text))/10)*10
-         
-        st.write('getTextSummarization for bert_model start .................')    
-           
-          
         full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
         st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size,'max_abstract_token_size=',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
         #bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
@@ -284,13 +280,14 @@ if user_message != '':
         berttext = []
         para = []
         if max_abstract_token_size > BERT_MAX_TOKEN:    
-            st.write('if .........max_abstract_token_size=',max_abstract_token_size,' BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
+            st.write('if .........max_abstract_token_size > BERT_MAX_TOKEN ')
             for line in full_text:
                     if len(line) > 1:
                         if len(line) < 100:
                             header.append(line)
                         else:
-                            para.append(line)
+                            para.append(line)            
+            st.write('complted para creation .......para len =',len(para)
             for parabody in para:
                 
                 berttext.append(bert_model(body=parabody,max_length=100))
