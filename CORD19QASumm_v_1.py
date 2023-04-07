@@ -313,4 +313,4 @@ if user_message != '':
             
         st.write('BERT summary len :.....................',len(bert_summary))      
         ##col2.write('Abstract : This article describes,' + bert_summary)  
-        #col2.write(bert_summary)  
+        col2.write(bert_summary)  
