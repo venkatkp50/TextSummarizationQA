@@ -278,12 +278,13 @@ if user_message != '':
            
           
         full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
-        st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size)
+        st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size,'max_abstract_token_size=',max_abstract_token_size)
         #bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
         header =[]
         berttext = []
         para = []
-        if max_abstract_token_size > BERT_MAX_TOKEN:            
+        if max_abstract_token_size > BERT_MAX_TOKEN:    
+            st.write('inside if look max_abstract_token_size > BERT_MAX_TOKEN')
             for line in full_text:
                     if len(line) > 1:
                         if len(line) < 100:
