@@ -278,7 +278,7 @@ if user_message != '':
            
           
         full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
-        #print('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size)
+        print('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size)
         #bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
         #print('BERT :.....................',len(bert_summary))      
         ##col2.write('Abstract : This article describes,' + bert_summary)  
