@@ -299,17 +299,22 @@ if user_message != '':
                 bert_summary = ''.join( lines for lines in berttext)
         else:
             st.write('else .........')
+            print('else .........')
             for line in full_text:
                 para.append(line) 
             st.write('else  .........  ...para len',len(para))
+            print('else  .........  ...para len',len(para))
             berttext = ''.join( lines for lines in para) 
             st.write('else ......... in para max_sent_size=',max_sent_size,'...para len',len(para))
+            print('else ......... in para max_sent_size=',max_sent_size,'...para len',len(para))
             bert_model = Summarizer()
             st.write('bert_model instantised  ..............')
+            print('bert_model instantised  ..............')
             berttext = bert_model(berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
             #return_text = ''.join( lines for lines in berttext)  
             bert_summary = ''.join( lines for lines in berttext)  
             
         st.write('BERT summary len :.....................',len(bert_summary))      
+        print('BERT summary len :.....................',len(bert_summary))      
         ##col2.write('Abstract : This article describes,' + bert_summary)  
         col2.write(bert_summary)  
