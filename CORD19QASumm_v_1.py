@@ -290,11 +290,11 @@ if user_message != '':
                             header.append(line)
                         else:
                             para.append(line)
-                for parabody in para:
-                    berttext.append(bert_model(body=parabody,max_length=100))
-                    berttext = Summarizer(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-                    #return_text = ''.join( lines for lines in berttext)
-                    bert_summary = ''.join( lines for lines in berttext)
+            for parabody in para:
+                berttext.append(bert_model(body=parabody,max_length=100))
+                berttext = Summarizer(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+                #return_text = ''.join( lines for lines in berttext)
+                bert_summary = ''.join( lines for lines in berttext)
         else:
             for line in full_text:
                 para.append(line) 
