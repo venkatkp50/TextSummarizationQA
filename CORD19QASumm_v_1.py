@@ -302,7 +302,7 @@ if user_message != '':
             for line in full_text:
                 para.append(line) 
             berttext = ''.join( lines for lines in para) 
-            berttext = bert_model(body=berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
+            berttext = Summarizer(body=berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
             #return_text = ''.join( lines for lines in berttext)  
             bert_summary = ''.join( lines for lines in berttext)  
             
