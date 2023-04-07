@@ -55,8 +55,7 @@ GPT2_MAX_TOKEN = 1024
 import warnings
 warnings.filterwarnings('ignore')
 
-#
-#GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
+
 
 # Stopword = stopwords.words('english') 
 # Stopword.extend(new_stopwords)
@@ -318,3 +317,13 @@ if user_message != '':
         print('BERT summary len :.....................',len(bert_summary))      
         ##col2.write('Abstract : This article describes,' + bert_summary)  
         col2.write(bert_summary)  
+        
+        st.write('................GPT filecount=',filecount)
+        GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
+        st.write('................GPT model created')
+        gpt2text_summary = getTextSummarization(filecount,'GPT2',full_text,tot_words_ref,max_sent_size)
+        st.write('................GPT summary')
+        #col3.write('Abstract : This article describes,' + gpt2text_summary )  
+        col3.write( gpt2text_summary )  
+        st.markdown('----')
+        st.subheader('Summarization Statistics')
