@@ -287,7 +287,7 @@ if user_message != '':
                             header.append(line)
                         else:
                             para.append(line)            
-            st.write('complted para creation .......para len =',len(para)
+            st.write('complted para creation .......para len =',len(para))
             for parabody in para:
                 
                 berttext.append(bert_model(body=parabody,max_length=100))
