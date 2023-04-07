@@ -278,13 +278,13 @@ if user_message != '':
            
           
         full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
-        st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size,'max_abstract_token_size=',max_abstract_token_size)
+        st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size,'max_abstract_token_size=',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
         #bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
         header =[]
         berttext = []
         para = []
         if max_abstract_token_size > BERT_MAX_TOKEN:    
-            st.write('inside if look max_abstract_token_size > BERT_MAX_TOKEN')
+            st.write('if .........max_abstract_token_size',max_abstract_token_size' BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
             for line in full_text:
                     if len(line) > 1:
                         if len(line) < 100:
@@ -299,9 +299,11 @@ if user_message != '':
                 #return_text = ''.join( lines for lines in berttext)
                 bert_summary = ''.join( lines for lines in berttext)
         else:
+            st.write('else .........')
             for line in full_text:
                 para.append(line) 
             berttext = ''.join( lines for lines in para) 
+            st.write('else ......... in para')
             berttext = Summarizer(body=berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
             #return_text = ''.join( lines for lines in berttext)  
             bert_summary = ''.join( lines for lines in berttext)  
