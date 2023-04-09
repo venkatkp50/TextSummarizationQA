@@ -364,4 +364,73 @@ if user_message != '':
         st.markdown('----')
 
         st.subheader('Performance Analysis of Text-Summary')     
+        rouge = rouge.Rouge()
+        bertscores = rouge.get_scores(hyps=gold_text, refs=bert_summary, avg=True)        
+        gpt2scores = rouge.get_scores(hyps=gold_text, refs=gpt2_summary, avg=True)   
 
+        col1, col2, col3 = st.columns(3)
+        
+        col2.write('BERT Score')
+        bertscore = pd.DataFrame(bertscores)
+        col2.table(bertscore)
+
+        col3.write('GPT-2 Score')
+        gpt2score = pd.DataFrame(gpt2scores)
+        col3.table(gpt2score)
+
+        dfbert = bertscore.T
+        dfbert['Model'] = 'BERT'
+        dfgpt = gpt2score.T
+        dfgpt['Model'] = 'GPT-2'
+        df = pd.concat([dfbert,dfgpt])
+
+        st.markdown('---')
+
+        target  = ['BERT','GPT-2']
+        r1 = [bertscore.loc['f','rouge-1'],gpt2score.loc['f','rouge-1']]
+        r2 = [bertscore.loc['f','rouge-2'],gpt2score.loc['f','rouge-2']]
+        r3 = [bertscore.loc['f','rouge-l'],gpt2score.loc['f','rouge-l']]
+        refs = []
+        lines =[]
+        for sent in sent_tokenize(gold_text):
+            for line in sent.split():
+                lines.append(line)
+            refs.append(lines)
+
+        # bert_cands  = []
+        # bert_lines = []
+        # for sent in sent_tokenize(bert_summary):
+        #     for line in sent.split():
+        #         bert_lines.append(line)
+        #     bert_cands.append(bert_lines)
+
+        bert_cands = [ cand for cand in bert_summary.split()]
+        bert_beluscore = sentence_bleu(refs, bert_cands)
+        #st.write(bert_beluscore)
+        gpt_cands  = [cand for cand in gpt2_summary.split()]
+        gpt_beluscore = sentence_bleu(refs, gpt_cands)
+        belu = [ bert_beluscore,gpt_beluscore]
+
+        bert_metor = meteor([word_tokenize(gold_text)],word_tokenize(bert_summary))
+        gpt_metor = meteor([word_tokenize(gold_text)],word_tokenize(gpt2_summary))
+
+        metor= [ bert_metor,gpt_metor]
+        radardf = pd.DataFrame()
+        radardf['ROUGE-1 F1'] = r1
+        radardf['ROUGE-2 F1'] = r2
+        radardf['ROUGE-L F1 '] = r3
+        radardf['BELU'] = belu
+        radardf['METOR'] = metor
+
+        fig = go.Figure()
+        colors= ["dodgerblue", "yellow", "tomato" ]
+        for i in range(2):
+                fig.add_trace(go.Scatterpolar(r=radardf.loc[i].values, theta=radardf.columns,fill='toself',
+                                              name=target[i],
+                                              fillcolor=colors[i], line=dict(color=colors[i]),showlegend=True, opacity=0.6))
+        st.subheader("Performance of Models over different evaluation metrics")
+        radarmax = radardf.max()
+        radmaxval =  radarmax.max()             
+        fig.update_layout(polar=dict(radialaxis=dict(visible=True,range=[0.0, radmaxval])),)
+        st.write(fig)
+        st.table(radardf)
