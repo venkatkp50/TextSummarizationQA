@@ -340,7 +340,7 @@ if user_message != '':
             gpt2_summary = ''.join( lines for lines in gpt2text)
         st.write('................GPT summary')
         #col3.write('Abstract : This article describes,' + gpt2text_summary )  
-        col3.write( gpt2text_summary )  
+        col3.write( gpt2_summary )  
         
         
         st.markdown('----')
