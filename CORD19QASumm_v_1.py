@@ -332,7 +332,7 @@ if user_message != '':
             gpt2text = ''.join( lines for lines in para) 
             st.write('else gpt2text len ...............',len(gpt2text))
             print('else gpt2text len ...............',len(gpt2text))
-            GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2")
+            GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="distilgpt2")
             #GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
             st.write('initiated gpt2_model')
             print('initiated gpt2_model')
