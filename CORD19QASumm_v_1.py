@@ -330,6 +330,7 @@ if user_message != '':
                 para.append(line)
             st.write('else para len ...............',len(para))
             gpt2text = ''.join( lines for lines in para) 
+            GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
             gpt2text = GPT2_model(body=gpt2text,max_length=max_abstract_token_size,num_sentences=max_sent_size)
             gpt2_summary = ''.join( lines for lines in gpt2text)
         st.write('................GPT summary')
