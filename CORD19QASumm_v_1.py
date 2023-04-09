@@ -308,7 +308,7 @@ if user_message != '':
         header =[]
         para = []
         gpt2text = []
-        st.write('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
+#         st.write('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
         if max_abstract_token_size > GPT2_MAX_TOKEN:  
             st.write('inside if ...............')
             for line in full_text:
