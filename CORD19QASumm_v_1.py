@@ -56,7 +56,6 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-
 # Stopword = stopwords.words('english') 
 # Stopword.extend(new_stopwords)
 # NER = spacy.load("en_core_web_sm")
