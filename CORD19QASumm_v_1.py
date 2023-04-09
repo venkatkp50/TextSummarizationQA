@@ -272,7 +272,7 @@ if user_message != '':
         max_abstract_token_size  = math.ceil(tot_words_ref / 100) * 100
         max_sent_size = math.ceil(len(sent_tokenize(gold_text))/10)*10
         full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
-        st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size,'max_abstract_token_size=',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
+        #st.write('full_text ................len=.',len(full_text) , 'tot_words_ref = ',tot_words_ref ,'max_sent_size=',max_sent_size,'max_abstract_token_size=',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
         #bert_summary = getTextSummarization(filecount,'BERT',full_text,tot_words_ref,max_sent_size)  
         header =[]
         berttext = []
@@ -304,7 +304,7 @@ if user_message != '':
             bert_summary = ''.join( lines for lines in berttext)  
         col2.write(bert_summary)  
         
-        st.write('................GPT filecount=',filecount)
+#         st.write('................GPT filecount=',filecount)
         header =[]
         para = []
         gpt2text = []
@@ -318,30 +318,50 @@ if user_message != '':
                     else:
                         para.append(line)                  
             for parabody in para:
-                GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
-                st.write('................GPT model created')
+                GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="distilgpt2")
+#                 st.write('................GPT model created')
                 gpt2text.append(GPT2_model(body=parabody, max_length=100))                           
                 gpt2text_full = ''.join(text for text in gpt2text)
                 gpt2_summary = GPT2_model(body=gpt2text_full, max_length=max_abstract_token_size,num_sentences=max_sent_size)
         else:
-            st.write('inside else ...............')
+#             st.write('inside else ...............')
             for line in full_text:
                 para.append(line)
-            st.write('else para len ...............',len(para))
+#             st.write('else para len ...............',len(para))
             print('else GPT2 para len ...............',len(para))
             gpt2text = ''.join( lines for lines in para) 
-            st.write('else gpt2text len ...............',len(gpt2text))
+#             st.write('else gpt2text len ...............',len(gpt2text))
             print('else gpt2text len ...............',len(gpt2text))
             GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="distilgpt2")
             #GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
-            st.write('initiated gpt2_model')
+#             st.write('initiated gpt2_model')
             print('initiated gpt2_model')
             gpt2text = GPT2_model(body=gpt2text,max_length=max_abstract_token_size,num_sentences=max_sent_size)
             gpt2_summary = ''.join( lines for lines in gpt2text)
-        st.write('................GPT summary')
+#         st.write('................GPT summary')
         #col3.write('Abstract : This article describes,' + gpt2text_summary )  
         col3.write( gpt2_summary )  
         
         
         st.markdown('----')
         st.subheader('Summarization Statistics')
+        
+        col1 , col2, col3 = st.columns(3)
+        
+        tot_words_bert = len((bert_summary.split()))
+        tot_words_gpt3 = len((gpt2_summary.split()))
+        col1.metric('Total Words Reference Text',tot_words_ref)
+        col2.metric("Total Words BERT Summarization", tot_words_bert,(tot_words_bert - tot_words_ref))
+        col3.metric("Total Words GPT-2 Summarization",tot_words_gpt3,(tot_words_gpt3 - tot_words_ref) )
+
+        tot_words_ref = len(sent_tokenize(gold_text))
+        tot_words_bert = len(sent_tokenize(bert_summary))
+        tot_words_gpt3 = len(sent_tokenize(gpt2_summary))
+        
+        col1.metric('Total Sentences Reference Text',tot_words_ref)        
+        col2.metric("Sentences in BERT Summarization", tot_words_bert,(tot_words_bert - tot_words_ref))
+        col3.metric(" Sentences in GPT-2 Summarization",tot_words_gpt3,(tot_words_gpt3 - tot_words_ref) )
+        st.markdown('----')
+
+        st.subheader('Performance Analysis of Text-Summary')     
+
