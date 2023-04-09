@@ -326,7 +326,7 @@ if user_message != '':
                 gpt2_summary = GPT2_model(body=gpt2text_full, max_length=max_abstract_token_size,num_sentences=max_sent_size)
         else:
             st.write('inside else ...............')
-            for line in std_text:
+            for line in full_text:
                 para.append(line)
             st.write('else para len ...............',len(para))
             gpt2text = ''.join( lines for lines in para) 
