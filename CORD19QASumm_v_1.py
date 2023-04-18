@@ -395,6 +395,7 @@ def runSumm():
             st.write(fig)
             st.table(radardf)
             st.markdown('-----')
+            st.session_state.input_text = ''
 
 
 
