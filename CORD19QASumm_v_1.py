@@ -5,28 +5,17 @@ import io
 import json
 import time
 import math
-#import spacy
-#from spacy import displacy
-#import zipfile
-#import logging
 import requests
 #import openai
 import rouge
-#import nltk
 import numpy as np
 import pandas as pd
-#import altair as alt
 from PIL import Image
 import streamlit as st
-#from pprint import pprint
 from nltk.corpus import stopwords
-#from copy import deepcopy
-#from tqdm.notebook import tqdm
-#from streamlit_chat import message
 import seaborn as sns
 import matplotlib.pyplot as plt
 import re, os, string, random, requests
-#from subprocess import Popen, PIPE, STDOUT
 from haystack.nodes import EmbeddingRetriever
 from haystack.utils import clean_wiki_text
 from haystack.utils import convert_files_to_docs
@@ -45,6 +34,14 @@ import nltk
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.translate import meteor
+
+from BERTSummarizer import getBERTSummary
+from GPT2Summarizer import getGPT2Summary
+from multiSummarize import multiSummarizer
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -149,76 +146,15 @@ def runSumm():
 
         def getTextSummarization(filecount,summarizationFor,std_text,max_abstract_token_size,max_sent_size):
             if summarizationFor == 'std':
-                #st.write('Calling from inside',data[data['paper_id'] == id[filecount].replace('.txt','')]['abstract'].values[0],np.nan)
                 if data[data['paper_id'] == id[filecount].replace('.txt','')]['abstract'].values[0] is np.nan:
-                #st.write('setting text to blank')
                     return_text = ''
                 else:
                     return_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['abstract'].values[0]
-            elif summarizationFor == 'BERT':
-                print('BERT inside .................1')
-                header =[]
-                berttext = []
-                para = []
-            #bert_model = Summarizer() 
-                print('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
-                if max_abstract_token_size > BERT_MAX_TOKEN:
-                    print('BERT inside .................2.1')
-                    for line in std_text:
-                        if len(line) > 1:
-                            if len(line) < 100:
-                                header.append(line)
-                            else:
-                                para.append(line)
-                    for parabody in para:
-                        berttext.append(bert_model(body=parabody,max_length=100))
-                        berttext = Summarizer(body=parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-                        return_text = ''.join( lines for lines in berttext) 
-                else:
-                    print('BERT inside .................2.2')
-                    for line in std_text:
-                        para.append(line) 
-                    berttext = ''.join( lines for lines in para) 
-                    berttext = bert_model(body=berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-                    return_text = ''.join( lines for lines in berttext)               
-            elif summarizationFor == 'GPT2':            
-
-                header =[]
-                para = []
-                gpt2text = []
-            
-                print('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
-                if max_abstract_token_size > GPT2_MAX_TOKEN:
-                    for line in std_text:
-                        if len(line) > 1:
-                            if len(line) < 100:
-                                header.append(line)
-                            else:
-                                para.append(line)                  
-                    for parabody in para:
-                        gpt2text.append(GPT2_model(body=parabody, max_length=100))
-                
-                    gpt2text_full = ''.join(text for text in gpt2text)
-                    return_text = GPT2_model(body=gpt2text_full, max_length=max_abstract_token_size,num_sentences=max_sent_size)
-                else:
-                    for line in std_text:
-                        para.append(line) 
-
-                    gpt2text = ''.join( lines for lines in para) 
-                    gpt2text = GPT2_model(body=gpt2text,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-                    return_text = ''.join( lines for lines in gpt2text) 
             return return_text
 
 
         tab1, tab2 = st.tabs(["Single Document Summarization", "Multi Document Summarization"])
 
-        mystyle = '''
-        <style>
-            p {
-                text-align: justify;
-            }
-        </style>
-        '''
         with tab1:
             print('inside tab1 .................')
             col1 , col2 , col3 = st.columns([1,1,1])
@@ -240,72 +176,12 @@ def runSumm():
             max_abstract_token_size  = math.ceil(tot_words_ref / 100) * 100
             max_sent_size = math.ceil(len(sent_tokenize(gold_text))/10)*10
             full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
-            header =[]
-            berttext = []
-            para = []
-            if max_abstract_token_size > BERT_MAX_TOKEN:    
-                for line in full_text:
-                        if len(line) > 1:
-                            if len(line) < 100:
-                                header.append(line)
-                            else:
-                                para.append(line)            
-                for parabody in para:                
-                    berttext.append(bert_model(body=parabody,max_length=100))
-                    st.write('tot_words_ref=',tot_words_ref)
-                    st.write('max_sent_size=',max_sent_size)
-                    bert_model = Summarizer()
-                    berttext = bert_model(parabody,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-                #return_text = ''.join( lines for lines in berttext)
-                    bert_summary = ''.join( lines for lines in berttext)
-            else:
-#               st.write('else .........')
-#             print('else .........')
-                for line in full_text:
-                    para.append(line) 
-                berttext = ''.join( lines for lines in para) 
-                bert_model = Summarizer('distilbert-base-uncased', hidden=[-1,-2], hidden_concat=True)
-                berttext = bert_model(berttext,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-            #return_text = ''.join( lines for lines in berttext)  
-                bert_summary = ''.join( lines for lines in berttext)  
+
+            bert_summary = getBERTSummary(filecount,'BERT',full_text,max_abstract_token_size,max_sent_size)
+            print('Outside BERT ..............')
             col2.write(bert_summary)  
-        
-#         st.write('................GPT filecount=',filecount)
-            header =[]
-            para = []
-            gpt2text = []
-#         st.write('tot_words_ref =',max_abstract_token_size,'BERT_MAX_TOKEN=',BERT_MAX_TOKEN)
-            if max_abstract_token_size > GPT2_MAX_TOKEN:  
-                st.write('inside if ...............')
-                for line in full_text:
-                    if len(line) > 1:
-                        if len(line) < 100:
-                            header.append(line)
-                        else:
-                            para.append(line)                  
-                for parabody in para:
-                    GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="distilgpt2")
-#                 st.write('................GPT model created')
-                    gpt2text.append(GPT2_model(body=parabody, max_length=100))                           
-                    gpt2text_full = ''.join(text for text in gpt2text)
-                    gpt2_summary = GPT2_model(body=gpt2text_full, max_length=max_abstract_token_size,num_sentences=max_sent_size)
-            else:
-#             st.write('inside else ...............')
-                for line in full_text:
-                    para.append(line)
-#             st.write('else para len ...............',len(para))
-                print('else GPT2 para len ...............',len(para))
-                gpt2text = ''.join( lines for lines in para) 
-#             st.write('else gpt2text len ...............',len(gpt2text))
-                print('else gpt2text len ...............',len(gpt2text))
-                GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="distilgpt2")
-            #GPT2_model = TransformerSummarizer(transformer_type="GPT2",transformer_model_key="gpt2-medium")
-#             st.write('initiated gpt2_model')
-                print('initiated gpt2_model')
-                gpt2text = GPT2_model(body=gpt2text,max_length=max_abstract_token_size,num_sentences=max_sent_size)
-                gpt2_summary = ''.join( lines for lines in gpt2text)
-#         st.write('................GPT summary')
-        #col3.write('Abstract : This article describes,' + gpt2text_summary )  
+  
+            gpt2_summary = getGPT2Summary(filecount,'GPT2',full_text,max_abstract_token_size,max_sent_size)
             col3.write( gpt2_summary )  
         
         
@@ -396,9 +272,24 @@ def runSumm():
             st.table(radardf)
             st.markdown('-----')
             st.session_state.input_text = ''
-
-
-
+        with tab2:
+            # docs = []
+            # for filen in filenames:
+            #     with open('text_file/'+filen, "r") as fd:
+            #         multifile_text = fd.readlines()
+            #     header =[]
+            #     para = []
+            #     for line in multifile_text:
+            #         if len(line) > 1:
+            #             if len(line) < 100:
+            #                 header.append(line)
+            #             else:
+            #                 para.append(line)  
+            #     multi_fulltext = ''.join( lines for lines in para)
+            #     docs.append(multi_fulltext)
+            multi_summary = multiSummarizer(ids, n=max_sent_size)
+            st.write(multi_summary)    
+            st.markdown('----')
 
 col_names = [
     'paper_id', 
