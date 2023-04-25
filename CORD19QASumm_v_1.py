@@ -280,7 +280,7 @@ def runSumm():
             #user_message = st.session_state.input_text
         with tab2:
             st.write('Block 2')
- 
+        st.stop()
         new_query = st.button('New Query',on_click=rerun)
 
 
