@@ -6,6 +6,9 @@ nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('stopwords')
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 def multiSummarizer(filenames, n):
     docs = []
@@ -45,5 +48,4 @@ def multiSummarizer(filenames, n):
     selected_indices = [x[0] for x in sentence_scores[:n]]
     selected_indices.sort()
     summary = ' '.join([nltk.sent_tokenize(docs[i])[0] for i in selected_indices])
-    print('summary=',summary,'..........................')
     return summary

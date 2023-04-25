@@ -39,8 +39,7 @@ from BERTSummarizer import getBERTSummary
 from GPT2Summarizer import getGPT2Summary
 from multiSummarize import multiSummarizer
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+
 
 nltk.download('punkt')
 nltk.download('wordnet')
@@ -52,14 +51,10 @@ GPT2_MAX_TOKEN = 1024
 import warnings
 warnings.filterwarnings('ignore')
 
-
-# Stopword = stopwords.words('english') 
-# Stopword.extend(new_stopwords)
-# NER = spacy.load("en_core_web_sm")
-
 st.set_page_config(layout="wide")
 imagename = Image.open('images/caronavirus banner.jpg')
-st.image(imagename)
+
+
 
 import warnings
 with warnings.catch_warnings():
@@ -71,13 +66,23 @@ st.sidebar.image(imagename2)
 st.sidebar.title('Settings')
 modelSelected = st.sidebar.selectbox('Choose Reader Model',options=('deepset/roberta-base-squad2-covid','deepset/roberta-base-squad2','deepset/covid_bert_base'))
 
+def rerun():
+    file2 = open("sessioncount.txt","w+")
+    file2.write('0')
+    file2.close()
+    st.session_state.input_text = ''
+    #st.experimental_rerun()
 
 
-def runSumm():
-    
-
+def runSumm():     
+    file2 = open("sessioncount.txt","w+")
+    file2.write('1')    
+    file2.close()
+    file3 = open("sessioncount.txt","r")
+    print('1...............',file3.read())
+    file3.close()
     user_message = st.session_state.input_text
-       
+   
     if user_message != '':
         print('inside user_meassage block')
         imagename = Image.open('images/caronavirus banner.jpg')
@@ -271,38 +276,14 @@ def runSumm():
             st.write(fig)
             st.table(radardf)
             st.markdown('-----')
-            st.session_state.input_text = ''
+            #st.session_state.input_text = ''
+            #user_message = st.session_state.input_text
         with tab2:
-            # docs = []
-            # for filen in filenames:
-            #     with open('text_file/'+filen, "r") as fd:
-            #         multifile_text = fd.readlines()
-            #     header =[]
-            #     para = []
-            #     for line in multifile_text:
-            #         if len(line) > 1:
-            #             if len(line) < 100:
-            #                 header.append(line)
-            #             else:
-            #                 para.append(line)  
-            #     multi_fulltext = ''.join( lines for lines in para)
-            #     docs.append(multi_fulltext)
-            multi_summary = multiSummarizer(ids, n=max_sent_size)
-            st.write(multi_summary)    
-            st.markdown('----')
+            st.write('Block 2')
+ 
+        new_query = st.button('New Query',on_click=rerun)
 
-col_names = [
-    'paper_id', 
-    'title', 
-    'authors',
-    'affiliations', 
-    'abstract', 
-    'text', 
-    'bibliography',
-    'raw_authors',
-    'raw_bibliography'
-]
-#data = pd.DataFrame(cleaned_files, columns=col_names)
+
 data = pd.read_csv('json2csv.csv')
 
 print('created json2csv ')
@@ -322,4 +303,17 @@ reader = FARMReader(model_name_or_path=modelSelected, use_gpu=True)
 pipe = ExtractiveQAPipeline(reader, retriever)
 print('completed reader ')
 
-textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)
+file1 = open("sessioncount.txt","r")
+runtime = file1.read()
+print('2................',runtime)
+file1.close()
+if runtime == '0':
+    st.image(imagename)
+    textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
+
+
+    
+
+
+
+
