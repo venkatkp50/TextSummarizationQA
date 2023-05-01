@@ -1,12 +1,9 @@
 
 import io
-#import os
-#import re
 import json
 import time
 import math
 import requests
-#import openai
 import rouge
 import numpy as np
 import pandas as pd
@@ -16,17 +13,7 @@ from nltk.corpus import stopwords
 import seaborn as sns
 import matplotlib.pyplot as plt
 import re, os, string, random, requests
-from haystack.nodes import EmbeddingRetriever
-from haystack.utils import clean_wiki_text
-from haystack.utils import convert_files_to_docs
-from haystack.utils import fetch_archive_from_http,print_answers
-from haystack.document_stores import InMemoryDocumentStore
-from haystack.document_stores import ElasticsearchDocumentStore
-from haystack.pipelines.standard_pipelines import TextIndexingPipeline
-from haystack.nodes import BM25Retriever
-from haystack.nodes import FARMReader
-from haystack.pipelines import ExtractiveQAPipeline
-from summarizer import Summarizer,TransformerSummarizer
+#from summarizer import Summarizer,TransformerSummarizer
 from bert_score import score
 import plotly.graph_objects as go
 import plotly.express as px
@@ -38,6 +25,8 @@ from nltk.translate import meteor
 from BERTSummarizer import getBERTSummary
 from GPT2Summarizer import getGPT2Summary
 from multiSummarize import multiSummarizer
+from haystackReader import getReaderResult
+
 
 
 
@@ -88,7 +77,8 @@ def runSumm():
         imagename = Image.open('images/caronavirus banner.jpg')
         st.image(imagename)
         st.write(user_message)
-        results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
+        #results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
+        results = getReaderResult(doc_dir,modelSelected,user_message)
         ans = []
         doc = []
         score = []
@@ -279,10 +269,14 @@ def runSumm():
             #st.session_state.input_text = ''
             #user_message = st.session_state.input_text
         with tab2:
-            st.write('Block 2')
-        
+            st.write(ids)
+            for id in ids:                
+                st.write(id.replace('.txt',''))
+                st.write(data[data['paper_id'] == id.replace('.txt','')]['text'].values[0])
+                st.markdown('----')
+            #full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
+        st.markdown('----')
         new_query = st.button('New Query',on_click=rerun)
-        st.stop()
 
 
 data = pd.read_csv('json2csv.csv')
@@ -295,14 +289,6 @@ bert_file_summary_path = 'summary_file/BERT'
 gpt_file_summary_path = 'summary_file/GPT'
 
 doc_dir = text_file_path
-
-document_store = InMemoryDocumentStore(use_bm25=True)
-docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
-document_store.write_documents(docs)
-retriever = BM25Retriever(document_store=document_store)
-reader = FARMReader(model_name_or_path=modelSelected, use_gpu=True)
-pipe = ExtractiveQAPipeline(reader, retriever)
-print('completed reader ')
 
 file1 = open("sessioncount.txt","r")
 runtime = file1.read()
