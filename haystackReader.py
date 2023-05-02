@@ -14,7 +14,7 @@ def getReaderResult(doc_dir,modelSelected,user_message):
     docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
     document_store.write_documents(docs)
     retriever = BM25Retriever(document_store=document_store)
-    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=True)
+    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=False)
     pipe = ExtractiveQAPipeline(reader, retriever)
     results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
     print('completed reader ')
