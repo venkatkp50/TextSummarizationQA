@@ -55,6 +55,13 @@ st.sidebar.image(imagename2)
 st.sidebar.title('Settings')
 modelSelected = st.sidebar.selectbox('Choose Reader Model',options=('deepset/roberta-base-squad2-covid','deepset/roberta-base-squad2','deepset/covid_bert_base'))
 
+mystyle = '''
+    <style>
+        p {
+            text-align: justify;
+        }
+    </style>
+    '''
 def rerun():
     file2 = open("sessioncount.txt","w+")
     file2.write('0')
@@ -73,6 +80,8 @@ def runSumm():
     user_message = st.session_state.input_text
    
     if user_message != '':
+        data = pd.read_csv('json2csv.csv')
+        print('created json2csv .....')
         print('inside user_meassage block')
         imagename = Image.open('images/caronavirus banner.jpg')
         st.image(imagename)
@@ -266,6 +275,7 @@ def runSumm():
             st.write(fig)
             st.table(radardf)
             st.markdown('-----')
+            
             #st.session_state.input_text = ''
             #user_message = st.session_state.input_text
         with tab2:
@@ -279,9 +289,9 @@ def runSumm():
         new_query = st.button('New Query',on_click=rerun)
 
 
-data = pd.read_csv('json2csv.csv')
+#data = pd.read_csv('json2csv.csv')
 
-print('created json2csv ')
+
 
 text_file_path = 'text_file'
 abstract_file_path = 'abstract_file'
