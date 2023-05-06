@@ -309,9 +309,9 @@ st.write('Open file path...........')
 
 runtime = file1.read()
 st.write('runtime .........=',runtime)
-
-print('runtype variable format................',type(runtime))
 file1.close()
+
+st.write('runtype variable format................',type(runtime))
 
 if runtime == '0':
     st.image(imagename)
