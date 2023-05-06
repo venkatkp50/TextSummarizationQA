@@ -312,7 +312,7 @@ st.write('runtime .........=',runtime)
 file1.close()
 
 st.write('runtype variable format................',type(runtime))
-st.write('runtime len................',len(runtime.strip()))
+runtime  = runtime.strip()
 
 if runtime == '0':
     st.image(imagename)
