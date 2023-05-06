@@ -305,8 +305,11 @@ file1 = open("sessioncount.txt","r")
 
 st.write('Open file path...........')
 
-runtime = file1.read()
-print('2................',runtime)
+st.write('content of file read=',file1.read())
+
+#runtime = file1.read()
+runtime = 0
+#print('2................',runtime)
 file1.close()
 
 if runtime == '0':
