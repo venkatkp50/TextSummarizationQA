@@ -310,8 +310,7 @@ st.write('Open file path...........')
 runtime = file1.read()
 st.write('runtime .........=',runtime)
 
-runtime = 0
-#print('2................',runtime)
+print('runtype variable format................',type(runtime))
 file1.close()
 
 if runtime == '0':
