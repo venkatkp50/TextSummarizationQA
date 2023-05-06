@@ -302,6 +302,9 @@ doc_dir = text_file_path
 st.write('got file path...........',text_file_path)
 
 file1 = open("sessioncount.txt","r")
+
+st.write('Open file path...........')
+
 runtime = file1.read()
 print('2................',runtime)
 file1.close()
