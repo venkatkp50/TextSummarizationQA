@@ -303,9 +303,9 @@ runtime = file1.read()
 print('2................',runtime)
 file1.close()
 
-if runtime == '0':
-    st.image(imagename)
-    textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
+#if runtime == '0':
+st.image(imagename)
+textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
 
 
     
