@@ -55,13 +55,13 @@ st.sidebar.image(imagename2)
 st.sidebar.title('Settings')
 modelSelected = st.sidebar.selectbox('Choose Reader Model',options=('deepset/roberta-base-squad2-covid','deepset/roberta-base-squad2','deepset/covid_bert_base'))
 
-mystyle = '''
-    <style>
-        p {
-            text-align: justify;
-        }
-    </style>
-    '''
+# mystyle = '''
+#     <style>
+#         p {
+#             text-align: justify;
+#         }
+#     </style>
+#     '''
 def rerun():
     file2 = open("sessioncount.txt","w+")
     file2.write('0')
@@ -297,13 +297,12 @@ text_file_path = 'text_file'
 abstract_file_path = 'abstract_file'
 bert_file_summary_path = 'summary_file/BERT'
 gpt_file_summary_path = 'summary_file/GPT'
-
 doc_dir = text_file_path
-
 file1 = open("sessioncount.txt","r")
 runtime = file1.read()
 print('2................',runtime)
 file1.close()
+
 if runtime == '0':
     st.image(imagename)
     textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
