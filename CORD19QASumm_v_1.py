@@ -291,7 +291,7 @@ def runSumm():
 
 #data = pd.read_csv('json2csv.csv')
 
-st.write('testing')
+#st.write('testing')
 
 text_file_path = 'text_file'
 # abstract_file_path = 'abstract_file'
@@ -299,19 +299,16 @@ text_file_path = 'text_file'
 # gpt_file_summary_path = 'summary_file/GPT'
 doc_dir = text_file_path
 
-st.write('got file path...........',text_file_path)
+#st.write('got file path...........',text_file_path)
 
 file1 = open("sessioncount.txt","r")
 
-st.write('Open file path...........')
-
-#
-
+#st.write('Open file path...........')
 runtime = file1.read()
-st.write('runtime .........=',runtime)
+#st.write('runtime .........=',runtime)
 file1.close()
 
-st.write('runtype variable format................',type(runtime))
+#st.write('runtype variable format................',type(runtime))
 runtime  = runtime.strip()
 
 if runtime == '0':
