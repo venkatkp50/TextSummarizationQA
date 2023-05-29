@@ -392,8 +392,9 @@ def runSumm():
 doc_dir = 'text_file'
 file1 = open("sessioncount.txt","r")
 runtime = file1.read()
-print('2................',runtime)
+st.write('2................',runtime)
 file1.close()
+
 if runtime == '0':
     st.image(imagename)
     textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
