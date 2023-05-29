@@ -26,7 +26,6 @@ from nltk.translate import meteor
 from BERTSummarizer import getBERTSummary
 
 from GPT2Summarizer import getGPT2Summary
-from multiDocumnentSummaryGPT2 import preprocess_documents,generate_summary
 from haystackReader import getReaderResult
 from textSentiment import getLable,pretty_print_zero_shot,getSentiment
 from posAnalysis import getDispacy
