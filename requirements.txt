@@ -144,3 +144,4 @@ websocket-client==1.5.1
 Werkzeug==2.2.3
 yarl==1.8.2
 zipp==3.14.0
+textblob==0.17.1
