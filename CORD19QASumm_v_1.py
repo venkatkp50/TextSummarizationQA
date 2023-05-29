@@ -394,8 +394,8 @@ file1 = open("sessioncount.txt","r")
 runtime = file1.read()
 st.write('2................',runtime)
 file1.close()
-
-if runtime == '0':
+runtime = int(runtime.strip())
+if runtime == 0:
     st.write('inside if block...........')
     st.image(imagename)
     textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
