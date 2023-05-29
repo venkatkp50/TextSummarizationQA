@@ -27,8 +27,8 @@ from BERTSummarizer import getBERTSummary
 
 from GPT2Summarizer import getGPT2Summary
 from haystackReader import getReaderResult
-from textSentiment import getLable,pretty_print_zero_shot,getSentiment
-from posAnalysis import getDispacy
+#from textSentiment import getLable,pretty_print_zero_shot,getSentiment
+#from posAnalysis import getDispacy
 from textSimilarity import getSimilarityScore
 from cosineSimilarity import getcosineSimilarity,getjaccardSimilarity
 from keySentences import analyze,get_top_sentences
