@@ -396,8 +396,11 @@ st.write('2................',runtime)
 file1.close()
 
 if runtime == '0':
+    st.write('inside if block...........')
     st.image(imagename)
     textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
+else:
+    st.write('inside else block...........')
 
 
     
