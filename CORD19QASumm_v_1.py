@@ -14,7 +14,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import re, os, string, random, requests
 #from summarizer import Summarizer,TransformerSummarizer
-from bert_score import score
+#from bert_score import score
 import plotly.graph_objects as go
 import plotly.express as px
 import nltk
@@ -22,12 +22,19 @@ from nltk.translate.bleu_score import sentence_bleu
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.translate import meteor
 
+
 from BERTSummarizer import getBERTSummary
+
 from GPT2Summarizer import getGPT2Summary
-from multiSummarize import multiSummarizer
+from multiDocumnentSummaryGPT2 import preprocess_documents,generate_summary
 from haystackReader import getReaderResult
-
-
+from textSentiment import getLable,pretty_print_zero_shot,getSentiment
+from posAnalysis import getDispacy
+from textSimilarity import getSimilarityScore
+from cosineSimilarity import getcosineSimilarity,getjaccardSimilarity
+from keySentences import analyze,get_top_sentences
+import warnings
+warnings.filterwarnings('ignore')
 
 
 nltk.download('punkt')
@@ -37,6 +44,9 @@ nltk.download('stopwords')
 new_stopwords = ["What"]
 BERT_MAX_TOKEN = 512
 GPT2_MAX_TOKEN = 1024
+doc_dir = 'text_file'
+
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -69,6 +79,19 @@ def rerun():
     st.session_state.input_text = ''
     #st.experimental_rerun()
 
+def getTextfromList(text):
+    header =[]
+    para = []
+    for line in sent_tokenize(text):
+        if not line is np.nan:
+            if len(line) > 1:
+                if len(line) < 100:
+                    header.append(line)
+                else:
+                    para.append(line)
+                    
+    text =  ''.join(line for line in para)
+    return text
 
 def runSumm():     
     file2 = open("sessioncount.txt","w+")
@@ -157,7 +180,7 @@ def runSumm():
             return return_text
 
 
-        tab1, tab2 = st.tabs(["Single Document Summarization", "Multi Document Summarization"])
+        tab1, tab2 , tab3 = st.tabs(["Single Document Summarization", "Summarized Text Analysis","Multi Document Summarization"])
 
         with tab1:
             print('inside tab1 .................')
@@ -275,42 +298,109 @@ def runSumm():
             st.write(fig)
             st.table(radardf)
             st.markdown('-----')
-            
-            #st.session_state.input_text = ''
-            #user_message = st.session_state.input_text
+
         with tab2:
-            st.write(ids)
-            for id in ids:                
-                st.write(id.replace('.txt',''))
-                st.write(data[data['paper_id'] == id.replace('.txt','')]['text'].values[0])
-                st.markdown('----')
-            #full_text = data[data['paper_id'] == id[filecount].replace('.txt','')]['text'].values[0]
-        st.markdown('----')
+             st.write('Tab 2')
+            # pol, sub = getSentiment(gpt2_summary)
+            # st.subheader('Text Sentiment')
+            # st.markdown('----')
+            # col1, col2= st.columns(2)
+            # col1.slider('Polarity', -1.0, 1.0, pol)
+            # col2.slider('Subhectivity', 0.0, 1.0, sub)
+            # st.subheader('Text Classification')
+            # st.markdown('----')
+            # sentiment = pretty_print_zero_shot(gpt2_summary)
+            # labels = getLable()
+            # senti = sentiment
+            # col1,col2,col3,col4,col5,col6,col7,col8 = st.columns(8,gap="small")
+            # if labels[0] == senti:
+            #     col1.error(labels[0])
+            # else:
+            #     col1.write(labels[0])
+
+            # if labels[1] == senti:
+            #     col2.error(labels[1])
+            # else:
+            #     col2.write(labels[1])
+
+            # if labels[2] == senti:
+            #     col3.error(labels[2])
+            # else:
+            #     col3.write(labels[2])
+
+            # if labels[3] == senti:
+            #     col4.error(labels[3])
+            # else:
+            #     col4.write(labels[3])
+
+            # if labels[4] == senti:
+            #     col5.error(labels[4])
+            # else:
+            #     col5.write(labels[4])
+
+            # if labels[5] == senti:
+            #     col6.error(labels[5])
+            # else:
+            #     col6.write(labels[5])
+
+            # if labels[6] == senti:
+            #     col7.error(labels[6])
+            # else:
+            #     col7.write(labels[6])
+
+            # if labels[7] == senti:
+            #     col8.error(labels[7])
+            # else:
+            #     col8.write(labels[7])
+
+            # st.markdown('----')
+            # st.subheader('Parts Of Speeach Analysis')
+            # #st.write(gpt2_summary)
+            
+            # spacyDisplay = getDispacy(gpt2_summary)
+            # st.markdown(spacyDisplay, unsafe_allow_html=True)
+            
+            # st.markdown('----')
+        with tab3:
+            polarity = []
+            subjectivity = []
+            senti = []
+            similarity_score = []
+            cosine_similarity = []
+            jaccard_similarity = []
+            text1 = data[data['paper_id'] == ids[0].replace('.txt','')]['text'].values[0]                
+            text1Str = getTextfromList(text1)
+            
+            for id in ids: 
+                text2 = data[data['paper_id'] == id.replace('.txt','')]['text'].values[0]
+                text2Str = getTextfromList(text2)                 
+                pol, sub = getSentiment(text2)
+
+                cosine_similarity.append(getcosineSimilarity(text1Str,text2Str))
+                jaccard_similarity.append(getjaccardSimilarity(text1Str,text2Str))
+                similarity_score.append( getSimilarityScore(text1Str,text2Str))
+                polarity.append(pol)
+                subjectivity.append(sub)
+
+            df3 = pd.DataFrame({'File_name':ids,'Score':score,'Polarity':polarity,'Subjectivity':subjectivity,'BERT Similarity':similarity_score,'Cosine similarity ':cosine_similarity,'Jaccard Similarity':jaccard_similarity})
+            st.table(df3)
+            
+            for highlight in analyze(gpt2_summary):
+                st.write(highlight)
+
+
+            st.markdown('----')
+
         new_query = st.button('New Query',on_click=rerun)
 
 
-#data = pd.read_csv('json2csv.csv')
 
-#st.write('testing')
 
-text_file_path = 'text_file'
-# abstract_file_path = 'abstract_file'
-# bert_file_summary_path = 'summary_file/BERT'
-# gpt_file_summary_path = 'summary_file/GPT'
-doc_dir = text_file_path
-
-#st.write('got file path...........',text_file_path)
-
+doc_dir = 'text_file'
 file1 = open("sessioncount.txt","r")
-
-#st.write('Open file path...........')
 runtime = file1.read()
-#st.write('runtime .........=',runtime)
+print('2................',runtime)
 file1.close()
-
-#st.write('runtype variable format................',type(runtime))
-runtime  = runtime.strip()
-
 if runtime == '0':
     st.image(imagename)
     textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
