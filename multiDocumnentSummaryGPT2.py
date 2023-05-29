@@ -1,4 +1,4 @@
-import gpt_2_simple as gpt2clea
+import gpt_2_simple as gpt2
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import streamlit as st
 import torch
