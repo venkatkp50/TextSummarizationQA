@@ -10,6 +10,7 @@ from haystack.nodes import FARMReader
 from haystack.pipelines import ExtractiveQAPipeline
 
 def getReaderResult(doc_dir,modelSelected,user_message):
+    print('inside getReaderResult..............')
     document_store = InMemoryDocumentStore(use_bm25=True)
     docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
     document_store.write_documents(docs)
