@@ -20,7 +20,7 @@ def getReaderResult(doc_dir,modelSelected,user_message):
     st.write('doc conversion ..............')
     retriever = BM25Retriever(document_store=document_store)
     st.write('retriever ..............')
-    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=False)
+    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=True)
     st.write('reader ..............')
     pipe = ExtractiveQAPipeline(reader, retriever)
     st.write('build pipeline ..............')
