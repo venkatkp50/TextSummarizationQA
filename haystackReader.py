@@ -12,8 +12,11 @@ from haystack.pipelines import ExtractiveQAPipeline
 def getReaderResult(doc_dir,modelSelected,user_message):
     print('inside getReaderResult..............')
     document_store = InMemoryDocumentStore(use_bm25=True)
+    print('doc_strore ..............acquired')
     docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
+    print('doc conversion ..............')
     document_store.write_documents(docs)
+    print('doc conversion ..............')
     retriever = BM25Retriever(document_store=document_store)
     reader = FARMReader(model_name_or_path=modelSelected, use_gpu=False)
     pipe = ExtractiveQAPipeline(reader, retriever)
