@@ -104,7 +104,9 @@ def runSumm():
         st.image(imagename)
         st.write(user_message)
         #results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
+        st.write('Before Reader...............')
         results = getReaderResult(doc_dir,modelSelected,user_message)
+        st.write('After Reader...............')
         ans = []
         doc = []
         score = []
