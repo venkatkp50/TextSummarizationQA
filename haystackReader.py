@@ -8,21 +8,22 @@ from haystack.pipelines.standard_pipelines import TextIndexingPipeline
 from haystack.nodes import BM25Retriever
 from haystack.nodes import FARMReader
 from haystack.pipelines import ExtractiveQAPipeline
+import streamlit as st
 
 def getReaderResult(doc_dir,modelSelected,user_message):
-    print('inside getReaderResult..............')
+    st.write('inside getReaderResult..............')
     document_store = InMemoryDocumentStore(use_bm25=True)
-    print('doc_strore ..............acquired')
+    st.write('doc_strore ..............acquired')
     docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
-    print('doc conversion ..............')
+    st.write('doc conversion ..............')
     document_store.write_documents(docs)
-    print('doc conversion ..............')
+    st.write('doc conversion ..............')
     retriever = BM25Retriever(document_store=document_store)
-    print('retriever ..............')
+    st.write('retriever ..............')
     reader = FARMReader(model_name_or_path=modelSelected, use_gpu=False)
-    print('reader ..............')
+    st.write('reader ..............')
     pipe = ExtractiveQAPipeline(reader, retriever)
-    print('build pipeline ..............')
+    st.write('build pipeline ..............')
     results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
-    print('completed reader ')
+    st.write('completed reader ')
     return results
