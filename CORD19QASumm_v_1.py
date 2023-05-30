@@ -91,11 +91,12 @@ def runSumm():
     file2.write('1')    
     file2.close()
     file3 = open("sessioncount.txt","r")
-    print('1...............',file3.read())
+    st.write('3...............',file3.read())
     file3.close()
     user_message = st.session_state.input_text
    
     if user_message != '':
+        st.write('4 inside user_message...............')
         data = pd.read_csv('json2csv.csv')
         print('created json2csv .....')
         print('inside user_meassage block')
