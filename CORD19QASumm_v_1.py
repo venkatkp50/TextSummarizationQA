@@ -91,7 +91,7 @@ def runSumm():
     file2.write('1')    
     file2.close()
     file3 = open("sessioncount.txt","r")
-    st.write('3...............',file3.read())
+    st.write('3...............')
     file3.close()
     user_message = st.session_state.input_text
    
