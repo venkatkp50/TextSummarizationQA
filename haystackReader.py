@@ -18,8 +18,11 @@ def getReaderResult(doc_dir,modelSelected,user_message):
     document_store.write_documents(docs)
     print('doc conversion ..............')
     retriever = BM25Retriever(document_store=document_store)
+    print('retriever ..............')
     reader = FARMReader(model_name_or_path=modelSelected, use_gpu=False)
+    print('reader ..............')
     pipe = ExtractiveQAPipeline(reader, retriever)
+    print('build pipeline ..............')
     results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
     print('completed reader ')
     return results
