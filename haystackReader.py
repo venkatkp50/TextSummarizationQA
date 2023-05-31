@@ -11,16 +11,11 @@ from haystack.nodes import FARMReader
 import streamlit as st
 
 def getReaderResult(doc_dir,modelSelected,user_message):
-    st.write('inside getReaderResult..............')
     document_store = InMemoryDocumentStore(use_bm25=True)
-    st.write('doc_strore ..............acquired')
     docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
-    st.write('doc conversion ..............')
     document_store.write_documents(docs)
-    st.write('doc conversion ..............')
-    retriever = BM25Retriever(document_store=document_store)
-    st.write('retriever ..............')
-    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=True)
+    retriever = BM25Retriever(document_store=document_store)    
+    reader = FARMReader(model_name_or_path=modelSelected)
     st.write('reader ..............')
     pipe = ExtractiveQAPipeline(reader, retriever)
     st.write('build pipeline ..............')
