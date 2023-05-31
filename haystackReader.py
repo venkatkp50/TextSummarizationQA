@@ -7,7 +7,7 @@ from haystack.document_stores import InMemoryDocumentStore
 #from haystack.pipelines.standard_pipelines import TextIndexingPipeline
 from haystack.nodes import BM25Retriever
 from haystack.nodes import FARMReader
-#from haystack.pipelines import ExtractiveQAPipeline
+from haystack.pipelines import ExtractiveQAPipeline
 import streamlit as st
 
 def getReaderResult(doc_dir,modelSelected,user_message):
