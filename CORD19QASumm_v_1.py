@@ -91,7 +91,6 @@ def runSumm():
     file2.write('1')    
     file2.close()
     file3 = open("sessioncount.txt","r")
-    st.write('3...............')
     file3.close()
     user_message = st.session_state.input_text
    
@@ -104,9 +103,9 @@ def runSumm():
         st.image(imagename)
         st.write(user_message)
         #results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
-        st.write('Before Reader...............')
+        print('Before Reader...............')
         results = getReaderResult(doc_dir,modelSelected,user_message)
-        st.write('After Reader...............')
+        print('After Reader...............')
         ans = []
         doc = []
         score = []
@@ -395,15 +394,15 @@ def runSumm():
 doc_dir = 'text_file'
 file1 = open("sessioncount.txt","r")
 runtime = file1.read()
-st.write('2................',runtime)
+print('2................',runtime)
 file1.close()
 runtime = int(runtime.strip())
 if runtime == 0:
-    st.write('inside if block...........')
+    print('inside if block...........')
     st.image(imagename)
     textinput = st.text_input("Your Query", key="input_text",value='',on_change=runSumm)    
 else:
-    st.write('inside else block...........')
+    print('inside else block...........')
 
 
     
