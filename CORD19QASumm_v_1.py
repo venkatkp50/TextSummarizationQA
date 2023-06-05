@@ -64,7 +64,7 @@ st.sidebar.image(imagename2)
 st.sidebar.title('Settings')
 modelSelected = st.sidebar.selectbox('Choose Reader Model',options=('deepset/roberta-base-squad2-covid','deepset/roberta-base-squad2','deepset/covid_bert_base'))
 
-st.write('1... start')
+#st.write('1... start')
 def rerun():
     file2 = open("sessioncount.txt","w+")
     file2.write('0')
@@ -95,7 +95,7 @@ def runSumm():
     user_message = st.session_state.input_text
    
     if user_message != '':
-        st.write('4 inside user_message...............')
+        #st.write('4 inside user_message...............')
         data = pd.read_csv('json2csv.csv')
         print('created json2csv .....')
         print('inside user_meassage block')
