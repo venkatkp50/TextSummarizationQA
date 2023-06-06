@@ -72,6 +72,12 @@ st.sidebar.image(imagename2)
 st.sidebar.title('Settings')
 modelSelected = st.sidebar.selectbox('Choose Reader Model',options=('deepset/roberta-base-squad2-covid','deepset/roberta-base-squad2','deepset/covid_bert_base'))
 
+def cleanText(text):  
+  text = re.sub(r"[^a-zA-Z]"," ",text)  
+  txt = [wrd.lower() for wrd in word_tokenize(text) if wrd.lower() not in STOPWORDS]
+  txt  = ' '.join(w for w in txt)
+  return txt
+
 #st.write('1... start')
 def rerun():
     file2 = open("sessioncount.txt","w+")
