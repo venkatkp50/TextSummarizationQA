@@ -319,9 +319,20 @@ def runSumm():
             #df3 = pd.DataFrame({'File_name':ids,'Score':score,'Polarity':polarity,'Subjectivity':subjectivity,'BERT Similarity':similarity_score,'Cosine similarity ':cosine_similarity,'Jaccard Similarity':jaccard_similarity})
             #st.table(df3)
             
-            for highlight in analyze(gpt2_summary):
-                st.write(highlight)
+            st.subheader('Key sentences from top files')
+            uniqueID = list(set(ids))
+            multidocsummary = []
+            for id in uniqueID:
+                text = data[data['paper_id'] == id.replace('.txt','')]['text'].values[0]
+                for highlight in analyze(text):
+                    if not highlight in multidocsummary:
+                        multidocsummary.append(highlight)
+                        st.write(highlight)
 
+            
+#             for highlight in analyze(gpt2_summary):
+#                 st.write(highlight)
+            
 
             st.markdown('----')
 
