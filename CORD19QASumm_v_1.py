@@ -45,6 +45,10 @@ nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('stopwords')
 new_stopwords = ["What"]
+
+content_image ='images/content'
+doc_dir = 'text_file'
+
 BERT_MAX_TOKEN = 512
 GPT2_MAX_TOKEN = 1024
 doc_dir = 'text_file'
@@ -325,13 +329,32 @@ def runSumm():
             
             st.subheader('Key sentences from top files')
             uniqueID = list(set(ids))
+                        st.subheader('Key sentences from top files')
             multidocsummary = []
             for id in uniqueID:
                 text = data[data['paper_id'] == id.replace('.txt','')]['text'].values[0]
                 for highlight in analyze(text):
                     if not highlight in multidocsummary:
                         multidocsummary.append(highlight)
-                        st.write(highlight)
+
+            count = 1
+            imageList = []
+            for txt in multidocsummary:
+                st.write(str(count),'. ',txt.capitalize())
+                imageKeyWords = ' '.join(wrd for wrd in get_keywords(cleanText(txt)))
+                
+                images_array, imgscore = getImage(imageKeyWords)                
+                imageName  = images_array[0]
+                #st.write(imgscore,imageList)
+                if not imageName in imageList:
+                    if float(imgscore[0]) > 0.5:
+                        imagenamex = Image.open(imageName,"r")
+                        st.image(imagenamex,width=content_image_width)
+                        imagenamex.close()
+                        imageList.append(imageName)
+                        st.write(imageName)
+                        st.write(','.join(wrd.upper() for wrd in word_tokenize(imageKeyWords)))
+                        #st.write(getDispacy(imageKeyWords.upper()))
 
             
 #             for highlight in analyze(gpt2_summary):
