@@ -32,6 +32,10 @@ from haystackReader import getReaderResult
 from textSimilarity import getSimilarityScore
 from cosineSimilarity import getcosineSimilarity,getjaccardSimilarity
 from keySentences import analyze,get_top_sentences
+from multimodalReader import getImage
+from keyWords import get_keywords
+
+
 import warnings
 warnings.filterwarnings('ignore')
 
