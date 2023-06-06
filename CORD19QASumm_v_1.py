@@ -316,8 +316,8 @@ def runSumm():
                 #polarity.append(pol)
                 #subjectivity.append(sub)
 
-            df3 = pd.DataFrame({'File_name':ids,'Score':score,'Polarity':polarity,'Subjectivity':subjectivity,'BERT Similarity':similarity_score,'Cosine similarity ':cosine_similarity,'Jaccard Similarity':jaccard_similarity})
-            st.table(df3)
+            #df3 = pd.DataFrame({'File_name':ids,'Score':score,'Polarity':polarity,'Subjectivity':subjectivity,'BERT Similarity':similarity_score,'Cosine similarity ':cosine_similarity,'Jaccard Similarity':jaccard_similarity})
+            #st.table(df3)
             
             for highlight in analyze(gpt2_summary):
                 st.write(highlight)
