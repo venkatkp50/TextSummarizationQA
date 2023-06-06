@@ -45,7 +45,7 @@ nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('stopwords')
 new_stopwords = ["What"]
-
+STOPWORDS = set(stopwords.words('english'))
 content_image ='images/content'
 doc_dir = 'text_file'
 
