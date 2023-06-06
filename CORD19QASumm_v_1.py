@@ -313,8 +313,8 @@ def runSumm():
                 cosine_similarity.append(getcosineSimilarity(text1Str,text2Str))
                 jaccard_similarity.append(getjaccardSimilarity(text1Str,text2Str))
                 similarity_score.append( getSimilarityScore(text1Str,text2Str))
-                polarity.append(pol)
-                subjectivity.append(sub)
+                #polarity.append(pol)
+                #subjectivity.append(sub)
 
             df3 = pd.DataFrame({'File_name':ids,'Score':score,'Polarity':polarity,'Subjectivity':subjectivity,'BERT Similarity':similarity_score,'Cosine similarity ':cosine_similarity,'Jaccard Similarity':jaccard_similarity})
             st.table(df3)
