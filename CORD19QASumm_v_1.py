@@ -308,7 +308,7 @@ def runSumm():
             for id in ids: 
                 text2 = data[data['paper_id'] == id.replace('.txt','')]['text'].values[0]
                 text2Str = getTextfromList(text2)                 
-                pol, sub = getSentiment(text2)
+                #pol, sub = getSentiment(text2)
 
                 cosine_similarity.append(getcosineSimilarity(text1Str,text2Str))
                 jaccard_similarity.append(getjaccardSimilarity(text1Str,text2Str))
