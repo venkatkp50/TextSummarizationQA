@@ -346,24 +346,24 @@ def runSumm():
             imageList = []
             for txt in multidocsummary:
                 st.write(str(count),'. ',txt.capitalize())
-                imageKeyWords = ' '.join(wrd for wrd in get_keywords(cleanText(txt)))
+                #imageKeyWords = ' '.join(wrd for wrd in get_keywords(cleanText(txt)))
                 
-                images_array, imgscore = getImage(imageKeyWords)                
-                imageName  = images_array[0]
-                #st.write(imgscore,imageList)
-                if not imageName in imageList:
-                    if float(imgscore[0]) > 0.5:
-                        imagenamex = Image.open(imageName,"r")
-                        st.image(imagenamex,width=content_image_width)
-                        imagenamex.close()
-                        imageList.append(imageName)
-                        st.write(imageName)
-                        st.write(','.join(wrd.upper() for wrd in word_tokenize(imageKeyWords)))
-                        #st.write(getDispacy(imageKeyWords.upper()))
+#                 images_array, imgscore = getImage(imageKeyWords)                
+#                 imageName  = images_array[0]
+#                 st.write(imgscore,imageList)
+#                 if not imageName in imageList:
+#                     if float(imgscore[0]) > 0.5:
+#                         imagenamex = Image.open(imageName,"r")
+#                         st.image(imagenamex,width=content_image_width)
+#                         imagenamex.close()
+#                         imageList.append(imageName)
+#                         st.write(imageName)
+#                         st.write(','.join(wrd.upper() for wrd in word_tokenize(imageKeyWords)))
+#                         #st.write(getDispacy(imageKeyWords.upper()))
 
             
 #             for highlight in analyze(gpt2_summary):
-#                 st.write(highlight)
+                st.write(highlight)
             
 
             st.markdown('----')
