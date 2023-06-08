@@ -350,8 +350,9 @@ def runSumm():
                 count +=1
                 
 #                 images_array, imgscore = getImage(imageKeyWords)                
-#                 imageName  = images_array[0]
-#                 st.write(imgscore,imageList)
+            images_array, imgscore = getImage('Cold')
+            imageName  = images_array[0]
+            st.write(imgscore,imageList)
 #                 if not imageName in imageList:
 #                     if float(imgscore[0]) > 0.5:
 #                         imagenamex = Image.open(imageName,"r")
