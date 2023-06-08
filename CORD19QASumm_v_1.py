@@ -332,7 +332,7 @@ def runSumm():
 
             #df3 = pd.DataFrame({'File_name':ids,'Score':score,'Polarity':polarity,'Subjectivity':subjectivity,'BERT Similarity':similarity_score,'Cosine similarity ':cosine_similarity,'Jaccard Similarity':jaccard_similarity})
             #st.table(df3)         
-            st.subheader('Key sentences from top files')
+#             st.subheader('Key sentences from top files')
             uniqueID = list(set(ids))
             st.subheader('Key sentences from top files')
             multidocsummary = []
