@@ -365,7 +365,7 @@ def runSumm():
 
             
 #             for highlight in analyze(gpt2_summary):
-                st.write(highlight)
+            st.write(highlight)
             
 
             st.markdown('----')
