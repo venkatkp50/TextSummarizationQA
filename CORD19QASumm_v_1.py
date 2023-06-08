@@ -347,6 +347,7 @@ def runSumm():
             for txt in multidocsummary:
                 st.write(str(count),'. ',txt.capitalize())
                 #imageKeyWords = ' '.join(wrd for wrd in get_keywords(cleanText(txt)))
+                count +=1
                 
 #                 images_array, imgscore = getImage(imageKeyWords)                
 #                 imageName  = images_array[0]
