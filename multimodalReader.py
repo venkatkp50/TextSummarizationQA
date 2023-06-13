@@ -15,8 +15,9 @@ def getImage(query):
     document_store = InMemoryDocumentStore(embedding_dim=512)
     doc_dir = 'images/content'
     images = [Document(content=f"{doc_dir}/{filename}", content_type="image") for filename in os.listdir('images/content/') ]
+    print('Images loaded........................')
     document_store.write_documents(images)
-    print(images)
+    #print(images)
     retriever_text_to_image = MultiModalRetriever(
     document_store=document_store,
     query_embedding_model="sentence-transformers/clip-ViT-B-32",
