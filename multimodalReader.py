@@ -28,8 +28,9 @@ def getImage(query):
     query_type="text",
     document_embedding_models={"image": "sentence-transformers/clip-ViT-L-14"},)
     #document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
-
+    print('Retriver ........................')
     document_store.update_embeddings(retriever=retriever_text_to_image)
+    print('update embedding ........................')
     pipeline = Pipeline()
     pipeline.add_node(component=retriever_text_to_image, name="retriever_text_to_image", inputs=["Query"])
     results = pipeline.run(query=query, params={"retriever_text_to_image": {"top_k": 1}})
