@@ -17,6 +17,7 @@ def getImage(query):
     images = [Document(content=f"{doc_dir}/{filename}", content_type="image") for filename in os.listdir('images/content/') ]
     print('Images loaded........................')
     document_store.write_documents(images)
+    print('added to store........................',images)
     #print(images)
     retriever_text_to_image = MultiModalRetriever(
     document_store=document_store,
