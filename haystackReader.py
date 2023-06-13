@@ -19,9 +19,9 @@ def getReaderResult(doc_dir,modelSelected,user_message):
     #st.write('modelSelected=............',modelSelected)
     #reader = FARMReader(model_name_or_path=modelSelected)
     reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
-    st.write('reader ..............')
+    #st.write('reader ..............')
     pipe = ExtractiveQAPipeline(reader, retriever)
-    st.write('build pipeline ..............')
+    #st.write('build pipeline ..............')
     results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
-    st.write('completed reader ')
+    #st.write('completed reader ')
     return results
