@@ -22,11 +22,11 @@ def getImage(query):
     #print(images)
     retriever_text_to_image = MultiModalRetriever(
     document_store=document_store,
-    #query_embedding_model="sentence-transformers/clip-ViT-B-32",
-    query_embedding_model=sent_trans,
+    query_embedding_model="sentence-transformers/clip-ViT-B-32",
+    #query_embedding_model=sent_trans,
     query_type="text",
-    document_embedding_models={"image": sent_trans},)    
-    #document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
+    #document_embedding_models={"image": sent_trans},)    
+    document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
 
     document_store.update_embeddings(retriever=retriever_text_to_image)
     pipeline = Pipeline()
