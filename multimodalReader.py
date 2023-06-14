@@ -1,4 +1,4 @@
-from haystack.telemetry import tutorial_running
+#from haystack.telemetry import tutorial_running
 from haystack.document_stores import InMemoryDocumentStore
 from haystack import Document
 from haystack.nodes.retriever.multimodal import MultiModalRetriever
@@ -8,7 +8,7 @@ from haystack import Pipeline
 
 
 
-tutorial_running(19)
+#tutorial_running(19)
 
 def getImage(query):
     print(query,'........................')
