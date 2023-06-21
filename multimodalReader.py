@@ -5,6 +5,7 @@ from haystack.nodes.retriever.multimodal import MultiModalRetriever
 import os
 from haystack import Pipeline
 import torch
+import streamlit as st
 
 
 
