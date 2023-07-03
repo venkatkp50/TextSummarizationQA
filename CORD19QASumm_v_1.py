@@ -353,7 +353,7 @@ def runSumm():
                 count +=1
                 
 #                 images_array, imgscore = getImage(imageKeyWords)                
-            images_array, imgscore = getImage('Cold')
+            images_array, imgscore = getImage('cold')
             imageName  = images_array[0]
             st.write(imgscore,imageList)
 #                 if not imageName in imageList:
