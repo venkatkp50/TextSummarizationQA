@@ -324,16 +324,18 @@ def runSumm():
                 text2Str = getTextfromList(text2)                 
                 #pol, sub = getSentiment(text2)
 
-                cosine_similarity.append(getcosineSimilarity(text1Str,text2Str))
-                jaccard_similarity.append(getjaccardSimilarity(text1Str,text2Str))
-                similarity_score.append( getSimilarityScore(text1Str,text2Str))
-                #polarity.append(pol)
-                #subjectivity.append(sub)
+                # cosine_similarity.append(getcosineSimilarity(text1Str,text2Str))
+                # jaccard_similarity.append(getjaccardSimilarity(text1Str,text2Str))
+                # similarity_score.append( getSimilarityScore(text1Str,text2Str))
+                # #polarity.append(pol)
+                # #subjectivity.append(sub)
 
             #df3 = pd.DataFrame({'File_name':ids,'Score':score,'Polarity':polarity,'Subjectivity':subjectivity,'BERT Similarity':similarity_score,'Cosine similarity ':cosine_similarity,'Jaccard Similarity':jaccard_similarity})
             #st.table(df3)         
 #             st.subheader('Key sentences from top files')
             uniqueID = list(set(ids))
+            st.write(uniqueID)
+            st.write(uniqueID[0:2])
             st.subheader('Key sentences from top files')
             multidocsummary = []
             for id in uniqueID:
