@@ -52,7 +52,7 @@ def getImage(query):
     #query_embedding_model=sent_trans,
     query_type="text",
     document_embedding_models={"image": "sentence-transformers/clip-ViT-L-14"},)
-    3document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
+    document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
     st.write('Retriver ........................')
     document_store.update_embeddings(retriever=retriever_text_to_image)
     st.write('update embedding ........................')
