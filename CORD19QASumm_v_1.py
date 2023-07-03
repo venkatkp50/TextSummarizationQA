@@ -336,6 +336,7 @@ def runSumm():
             uniqueID = list(set(ids))
             st.write(uniqueID)
             st.write(uniqueID[0:2])
+            uniqueID = uniqueID[0:1]
             st.subheader('Key sentences from top files')
             multidocsummary = []
             for id in uniqueID:
