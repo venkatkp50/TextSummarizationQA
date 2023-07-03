@@ -11,12 +11,12 @@ import streamlit as st
 
 @st.cache
 def getImageSessionpipeline():
-    print(query,'........................getImageSession')
+    st.write(query,'........................getImageSession')
     sent_trans = 'sentence-transformers/nli-bert-base'
     document_store = InMemoryDocumentStore(embedding_dim=512)
     doc_dir = 'images/content'
     images = [Document(content=f"{doc_dir}/{filename}", content_type="image") for filename in os.listdir('images/content/') ]
-    print('Images loaded........................getImageSession')
+    st.write('Images loaded........................getImageSession')
     document_store.write_documents(images)
     print('added to store........................getImageSession',images)
     #print(images)
