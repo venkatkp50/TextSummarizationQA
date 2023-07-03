@@ -351,10 +351,11 @@ def runSumm():
                 st.write(str(count),'. ',txt.capitalize())
                 #imageKeyWords = ' '.join(wrd for wrd in get_keywords(cleanText(txt)))
                 count +=1
-                
-#                 images_array, imgscore = getImage(imageKeyWords)                
             images_array, imgscore = getImage('cold')
             imageName  = images_array[0]
+                
+#                 images_array, imgscore = getImage(imageKeyWords)                
+            
             st.write(imgscore,imageList)
 #                 if not imageName in imageList:
 #                     if float(imgscore[0]) > 0.5:
