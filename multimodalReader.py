@@ -13,7 +13,7 @@ import streamlit as st
 def getImageSessionpipeline():
     st.write(query,'........................getImageSession')
     sent_trans = 'sentence-transformers/nli-bert-base'
-    document_store = InMemoryDocumentStore(embedding_dim=512)
+    document_store = InMemoryDocumentStore(embedding_dim=256)
     doc_dir = 'images/content'
     images = [Document(content=f"{doc_dir}/{filename}", content_type="image") for filename in os.listdir('images/content/') ]
     st.write('Images loaded........................getImageSession')
@@ -22,8 +22,8 @@ def getImageSessionpipeline():
     #print(images)
     retriever_text_to_image = MultiModalRetriever(
     document_store=document_store,
-    query_embedding_model="sentence-transformers/clip-ViT-L-14",
-    #query_embedding_model="sentence-transformers/clip-ViT-B-32",
+    #query_embedding_model="sentence-transformers/clip-ViT-L-14",
+    query_embedding_model="sentence-transformers/clip-ViT-B-32",
     #query_embedding_model=sent_trans,
     query_type="text",
     document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
@@ -38,7 +38,7 @@ def getImageSessionpipeline():
 def getImage(query):
     st.write(query,'........................')
     sent_trans = 'sentence-transformers/nli-bert-base'
-    document_store = InMemoryDocumentStore(embedding_dim=512)
+    document_store = InMemoryDocumentStore(embedding_dim=256)
     doc_dir = 'images/content'
     images = [Document(content=f"{doc_dir}/{filename}", content_type="image") for filename in os.listdir('images/content/') ]
     st.write('Images loaded........................')
@@ -47,12 +47,12 @@ def getImage(query):
     #print(images)
     retriever_text_to_image = MultiModalRetriever(
     document_store=document_store,
-    query_embedding_model="sentence-transformers/clip-ViT-L-14",
-    #query_embedding_model="sentence-transformers/clip-ViT-B-32",
+    #query_embedding_model="sentence-transformers/clip-ViT-L-14",
+    query_embedding_model="sentence-transformers/clip-ViT-B-32",
     #query_embedding_model=sent_trans,
     query_type="text",
-    document_embedding_models={"image": "sentence-transformers/clip-ViT-L-14"},)
-    #document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
+    #document_embedding_models={"image": "sentence-transformers/clip-ViT-L-14"},)
+    document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
     st.write('Retriver ........................')
     document_store.update_embeddings(retriever=retriever_text_to_image)
     st.write('update embedding ........................')
