@@ -334,9 +334,9 @@ def runSumm():
             #st.table(df3)         
 #             st.subheader('Key sentences from top files')
             uniqueID = list(set(ids))
-            st.write(uniqueID)
-            st.write(uniqueID[0:2])
-            uniqueID = uniqueID[0:1]
+            # st.write(uniqueID)
+            # st.write(uniqueID[0:2])
+            # uniqueID = uniqueID[0:1]
             st.subheader('Key sentences from top files')
             multidocsummary = []
             for id in uniqueID:
@@ -351,12 +351,12 @@ def runSumm():
                 st.write(str(count),'. ',txt.capitalize())
                 #imageKeyWords = ' '.join(wrd for wrd in get_keywords(cleanText(txt)))
                 count +=1
-            images_array, imgscore = getImage('cold')
-            imageName  = images_array[0]
+            # images_array, imgscore = getImage('cold')
+            # imageName  = images_array[0]
                 
 #                 images_array, imgscore = getImage(imageKeyWords)                
             
-            st.write(imgscore,imageList)
+            # st.write(imgscore,imageList)
 #                 if not imageName in imageList:
 #                     if float(imgscore[0]) > 0.5:
 #                         imagenamex = Image.open(imageName,"r")
