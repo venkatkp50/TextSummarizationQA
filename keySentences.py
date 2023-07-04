@@ -141,7 +141,7 @@ def analyze(text, stop_words=None):
         #st.write(sorted_pr)
 
         index = 0
-        for epoch in range(5):
+        for epoch in range(3):
             sent = sentences[sorted_pr[index]]
             sent = normalize_whitespace(sent)
             top_sentences.append(sent)
