@@ -43,16 +43,16 @@ def getImage(query):
     images = [Document(content=f"{doc_dir}/{filename}", content_type="image") for filename in os.listdir('images/content/') ]
     st.write('Images loaded........................')
     document_store.write_documents(images)
-    st.write('added to store........................',images)
+    st.write('added to store........................')
     #print(images)
     retriever_text_to_image = MultiModalRetriever(
     document_store=document_store,
-    #query_embedding_model="sentence-transformers/clip-ViT-L-14",
-    query_embedding_model="sentence-transformers/clip-ViT-B-32",
+    query_embedding_model="sentence-transformers/clip-ViT-L-14",
+    #query_embedding_model="sentence-transformers/clip-ViT-B-32",
     #query_embedding_model=sent_trans,
     query_type="text",
-    #document_embedding_models={"image": "sentence-transformers/clip-ViT-L-14"},)
-    document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
+    document_embedding_models={"image": "sentence-transformers/clip-ViT-L-14"},)
+    #document_embedding_models={"image": "sentence-transformers/clip-ViT-B-32"},)
     st.write('Retriver ........................')
     document_store.update_embeddings(retriever=retriever_text_to_image)
     st.write('update embedding ........................')
