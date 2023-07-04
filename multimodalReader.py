@@ -38,7 +38,7 @@ def getImageSessionpipeline():
 def getImage(query):
     st.write(query,'........................')
     sent_trans = 'sentence-transformers/nli-bert-base'
-    document_store = InMemoryDocumentStore(embedding_dim=512)
+    document_store = InMemoryDocumentStore(embedding_dim=256)
     doc_dir = 'images/content'
     images = [Document(content=f"{doc_dir}/{filename}", content_type="image") for filename in os.listdir('images/content/') ]
     st.write('Images loaded........................')
