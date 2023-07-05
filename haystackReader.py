@@ -17,10 +17,10 @@ def getReaderResult(doc_dir,modelSelected,user_message):
     docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
     document_store.write_documents(docs)
     retriever = BM25Retriever(document_store=document_store)
-    if HAYSTACK_READER == 'TRANSFORMER':
-        reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
-    else:
-        reader = FARMReader(model_name_or_path=modelSelected, use_gpu=USE_GPU)
+    # if HAYSTACK_READER == 'TRANSFORMER':
+    #     reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
+    # else:
+    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=USE_GPU)
     #reader = FARMReader(model_name_or_path=modelSelected)
     #reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
     pipe = ExtractiveQAPipeline(reader, retriever)
