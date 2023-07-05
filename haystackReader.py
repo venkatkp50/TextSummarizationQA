@@ -20,7 +20,7 @@ def getReaderResult(doc_dir,modelSelected,user_message):
     # if HAYSTACK_READER == 'TRANSFORMER':
     #     reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
     # else:
-    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=USE_GPU)
+    reader = FARMReader(model_name_or_path=modelSelected, use_gpu=False)
     #reader = FARMReader(model_name_or_path=modelSelected)
     #reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
     pipe = ExtractiveQAPipeline(reader, retriever)
