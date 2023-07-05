@@ -10,18 +10,20 @@ from haystack.nodes import BM25Retriever
 from haystack.nodes import FARMReader
 from haystack.pipelines import ExtractiveQAPipeline
 import streamlit as st
+from config import TOP_K_READER,TOP_K_RETRIEVER,USE_GPU,HAYSTACK_READER
 
 def getReaderResult(doc_dir,modelSelected,user_message):
     document_store = InMemoryDocumentStore(use_bm25=True)
     docs = convert_files_to_docs(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
     document_store.write_documents(docs)
-    retriever = BM25Retriever(document_store=document_store)   
-    #st.write('modelSelected=............',modelSelected)
+    retriever = BM25Retriever(document_store=document_store)
+    if HAYSTACK_READER == 'TRANSFORMER':
+        reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
+    else:
+        reader = FARMReader(model_name_or_path=modelSelected, use_gpu=USE_GPU)
     #reader = FARMReader(model_name_or_path=modelSelected)
-    reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
-    #st.write('reader ..............')
+    #reader = TransformersReader(model_name_or_path=modelSelected,tokenizer=modelSelected)
     pipe = ExtractiveQAPipeline(reader, retriever)
-    #st.write('build pipeline ..............')
-    results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
+    results = pipe.run(query=user_message,params={"Retriever": {"top_k": TOP_K_RETRIEVER},"Reader": {"top_k": TOP_K_READER}})
     #st.write('completed reader ')
     return results
