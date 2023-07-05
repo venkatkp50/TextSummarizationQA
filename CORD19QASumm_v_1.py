@@ -109,7 +109,7 @@ def runSumm():
     user_message = st.session_state.input_text
    
     if user_message != '':
-        #st.write('4 inside user_message...............')
+        st.write('4 inside user_message...............')
         data = pd.read_csv('json2csv.csv')
         print('created json2csv .....')
         print('inside user_meassage block')
@@ -117,9 +117,9 @@ def runSumm():
         st.image(imagename)
         st.write(user_message)
         #results = pipe.run(query=user_message,params={"Retriever": {"top_k": 10},"Reader": {"top_k": 5}})
-        print('Before Reader...............')
+        st.write('Before Reader...............')
         results = getReaderResult(doc_dir,modelSelected,user_message)
-        print('After Reader...............')
+        st.write('After Reader...............')
         ans = []
         doc = []
         score = []
